@@ -1,27 +1,47 @@
 package org.example;
 
 public class Round {
-    private int firstRoll;
-    private int secondRoll;
+    private Integer firstRoll;
+    private Integer secondRoll;
 
-//    public Round(int firstRoll) {
-//        this.firstRoll = firstRoll;
-//        this.secondRoll = 0;
-//    }
+    private boolean isEnded;
+
+    public Round() {
+        this.isEnded = false;
+    }
 
     public void setFirstRoll(int firstRoll) {
         this.firstRoll = firstRoll;
+    }
+
+    public Integer getFirstRoll() {
+        return this.firstRoll;
     }
 
     public void setSecondRoll(int secondRoll) {
         this.secondRoll = secondRoll;
     }
 
+    public Integer getSecondRoll() {
+        return this.secondRoll;
+    }
+
     public int getRoundScore() {
-        if (firstRoll == 10) {
-            return firstRoll;
+        if (this.secondRoll == null) {
+            return this.firstRoll;
         }
 
-        return firstRoll + secondRoll;
+        return this.firstRoll + this.secondRoll;
+    }
+
+    public boolean isStarted() {
+        return this.firstRoll != null;
+    }
+
+    public void setIsEnded() {
+        this.isEnded = true;
+    }
+    public boolean isEnded() {
+        return this.isEnded;
     }
 }
