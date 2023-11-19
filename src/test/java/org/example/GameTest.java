@@ -48,8 +48,7 @@ class GameTest {
     @Test
     @DisplayName("Ensure spare round")
     void testSpareRound() {
-        game.addNewRoll(5);
-        game.addNewRoll(5);
+        addSpareGame(game, 1);
         game.addNewRoll(3);
 
         assertEquals(16, game.getTotalScore(), "should be equal to 20");
@@ -58,10 +57,7 @@ class GameTest {
     @Test
     @DisplayName("Ensure two spare rounds")
     void testTwoSpareRounds() {
-        game.addNewRoll(5);
-        game.addNewRoll(5);
-        game.addNewRoll(5);
-        game.addNewRoll(5);
+        addSpareGame(game, 2);
         game.addNewRoll(3);
 
         assertEquals(31, game.getTotalScore(), "should be equal to 31");
@@ -70,8 +66,7 @@ class GameTest {
     @Test
     @DisplayName("Ensure spare round with unstarted next round")
     void testSpareRoundWithUnstartedNextRound() {
-        game.addNewRoll(5);
-        game.addNewRoll(5);
+        addSpareGame(game, 1);
 
         assertEquals(10, game.getTotalScore(), "should be equal to 10");
     }
@@ -79,7 +74,7 @@ class GameTest {
     @Test
     @DisplayName("Ensure strike round")
     void testStrikeRound() {
-        game.addNewRoll(10);
+        addStrikeGame(game, 1);
         game.addNewRoll(3);
         game.addNewRoll(2);
 
@@ -89,11 +84,27 @@ class GameTest {
     @Test
     @DisplayName("Ensure two strike rounds")
     void testTwoStrikeRounds() {
-        game.addNewRoll(10);
-        game.addNewRoll(10);
+        addStrikeGame(game, 2);
         game.addNewRoll(5);
         game.addNewRoll(3);
 
         assertEquals(51, game.getTotalScore(), "should be equal to 51");
+    }
+
+    private void addStrikeGame(Game game, int numberOfRound) {
+        int i =0;
+        while(i < numberOfRound) {
+            game.addNewRoll(10);
+            i++;
+        }
+    }
+
+    private void addSpareGame(Game game, int numberOfRound) {
+        int i=0;
+        while(i < numberOfRound) {
+            game.addNewRoll(5);
+            game.addNewRoll(5);
+            i++;
+        }
     }
 }
