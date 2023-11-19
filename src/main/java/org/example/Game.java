@@ -3,8 +3,11 @@ package org.example;
 public class Game {
     private final Round[] rounds;
 
+    private final Integer[] extraRolls;
+
     public Game() {
         this.rounds = new Round[10];
+        this.extraRolls = new Integer[2];
     }
 
     public void addNewRoll(int score) {
@@ -15,7 +18,14 @@ public class Game {
             }
             latestRound++;
         }
-        if (this.rounds[latestRound] == null || !this.rounds[latestRound].isStarted()) {
+
+        if (latestRound >= 10) {
+            if (this.extraRolls[0] == null) {
+                this.extraRolls[0] = score;
+            } else {
+                this.extraRolls[1] = score;
+            }
+        } else if (this.rounds[latestRound] == null || !this.rounds[latestRound].isStarted()) {
             Round newRound = new Round();
             newRound.setFirstRoll(score);
             if (isStrike(score)) {
@@ -47,15 +57,25 @@ public class Game {
 
             score += rounds[i].getRoundScore();
 
-            if (rounds[i].getRoundScore() == 10 && rounds[i+1] != null) {
-                score += rounds[i+1].getFirstRoll();
-            }
+            if (i < 9) {
+                if (rounds[i].getRoundScore() == 10 && rounds[i+1] != null) {
+                    score += rounds[i+1].getFirstRoll();
+                }
 
-            if (rounds[i].getFirstRoll() == 10 && rounds[i+1].getSecondRoll() != null) {
-                score += rounds[i+1].getSecondRoll();
-            } else if (rounds[i].getFirstRoll() == 10 && rounds[i+2] != null) {
-                score += rounds[i+2].getFirstRoll();
+                if (rounds[i].getFirstRoll() == 10 && rounds[i+1].getSecondRoll() != null) {
+                    score += rounds[i+1].getSecondRoll();
+                } else if (rounds[i].getFirstRoll() == 10 && rounds[i+2] != null) {
+                    score += rounds[i+2].getFirstRoll();
+                }
             }
+        }
+
+        if (this.extraRolls[0] != null) {
+            score += this.extraRolls[0];
+        }
+
+        if (this.extraRolls[1] != null) {
+            score += this.extraRolls[1];
         }
 
         return score;

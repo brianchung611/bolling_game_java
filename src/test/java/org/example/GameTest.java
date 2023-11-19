@@ -87,6 +87,27 @@ class GameTest {
         assertEquals(45, game.getTotalScore(), "should be equal to 51");
     }
 
+    @Test
+    @DisplayName("Ensure 10th round with spare has extra roll")
+    void testTenthRoundWithSpareHasExtraRoll() {
+        addZeroRound(game, 9);
+        addSpareGame(game, 1);
+        game.addNewRoll(5);
+
+        assertEquals(15, game.getTotalScore(), "should be equal to 20");
+    }
+
+    @Test
+    @DisplayName("Ensure 10th round with strike has two extra rolls")
+    void testTenthRoundWithStrikeHasTwoExtraRolls() {
+        addZeroRound(game, 9);
+        addStrikeGame(game, 1);
+        game.addNewRoll(5);
+        game.addNewRoll(3);
+
+        assertEquals(18, game.getTotalScore(), "should be equal to 18");
+    }
+
     private void addStrikeGame(Game game, int numberOfRound) {
         int i =0;
         while(i < numberOfRound) {
