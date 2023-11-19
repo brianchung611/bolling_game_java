@@ -29,20 +29,18 @@ class GameTest {
     @Test
     @DisplayName("Ensure adding second roll")
     void testAddSecondRoll() {
-        game.addNewRoll(1);
-        game.addNewRoll(2);
+        addNormalRound(game, 1);
 
-        assertEquals(3, game.getTotalScore(), "should be equal to 3");
+        assertEquals(6, game.getTotalScore(), "should be equal to 3");
     }
 
     @Test
     @DisplayName("Ensure adding new round")
     void testAddNewRound() {
-        game.addNewRoll(1);
-        game.addNewRoll(2);
+        addNormalRound(game, 1);
         game.addNewRoll(3);
 
-        assertEquals(6, game.getTotalScore(), "should be equal to 6");
+        assertEquals(9, game.getTotalScore(), "should be equal to 6");
     }
 
     @Test
@@ -64,8 +62,8 @@ class GameTest {
     }
 
     @Test
-    @DisplayName("Ensure spare round with unstarted next round")
-    void testSpareRoundWithUnstartedNextRound() {
+    @DisplayName("Ensure spare round with not started next round")
+    void testSpareRoundWithNotStartedNextRound() {
         addSpareGame(game, 1);
 
         assertEquals(10, game.getTotalScore(), "should be equal to 10");
@@ -75,20 +73,18 @@ class GameTest {
     @DisplayName("Ensure strike round")
     void testStrikeRound() {
         addStrikeGame(game, 1);
-        game.addNewRoll(3);
-        game.addNewRoll(2);
+        addNormalRound(game, 1);
 
-        assertEquals(20, game.getTotalScore(), "should be equal to 20");
+        assertEquals(22, game.getTotalScore(), "should be equal to 20");
     }
 
     @Test
     @DisplayName("Ensure two strike rounds")
     void testTwoStrikeRounds() {
         addStrikeGame(game, 2);
-        game.addNewRoll(5);
-        game.addNewRoll(3);
+        addNormalRound(game, 1);
 
-        assertEquals(51, game.getTotalScore(), "should be equal to 51");
+        assertEquals(45, game.getTotalScore(), "should be equal to 51");
     }
 
     private void addStrikeGame(Game game, int numberOfRound) {
@@ -100,10 +96,22 @@ class GameTest {
     }
 
     private void addSpareGame(Game game, int numberOfRound) {
-        int i=0;
+        addRound(game, 5, numberOfRound);
+    }
+
+    private void addNormalRound(Game game, int numberOfRound) {
+        addRound(game, 3, numberOfRound);
+    }
+
+    private void addZeroRound(Game game, int numberOfRound) {
+        addRound(game, 0, numberOfRound);
+    }
+
+    private void addRound(Game game, int rollScore, int numberOfRound) {
+        int i = 0;
         while(i < numberOfRound) {
-            game.addNewRoll(5);
-            game.addNewRoll(5);
+            game.addNewRoll(rollScore);
+            game.addNewRoll(rollScore);
             i++;
         }
     }
