@@ -53,7 +53,7 @@ public class Game {
 
             if (rounds[i].getFirstRoll() == 10 && rounds[i+1].getSecondRoll() != null) {
                 score += rounds[i+1].getSecondRoll();
-            } else if (rounds[i+2] != null) {
+            } else if (rounds[i].getFirstRoll() == 10 && rounds[i+2] != null) {
                 score += rounds[i+2].getFirstRoll();
             }
         }
