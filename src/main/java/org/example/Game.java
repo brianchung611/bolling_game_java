@@ -58,16 +58,22 @@ public class Game {
             score += rounds[i].getRoundScore();
 
             if (i < 9) {
-                if (rounds[i].getRoundScore() == 10 && rounds[i+1] != null) {
-                    score += rounds[i+1].getFirstRoll();
+                if (rounds[i].getRoundScore() == 10 && rounds[i + 1] != null) {
+                    score += rounds[i + 1].getFirstRoll();
                 }
+            }
 
+            if (i < 8) {
                 if (rounds[i].getFirstRoll() == 10 && rounds[i+1].getSecondRoll() != null) {
                     score += rounds[i+1].getSecondRoll();
                 } else if (rounds[i].getFirstRoll() == 10 && rounds[i+2] != null) {
                     score += rounds[i+2].getFirstRoll();
                 }
             }
+        }
+
+        if (this.rounds[9] != null && this.rounds[8].getFirstRoll() == 10 && this.rounds[9].getFirstRoll() == 10 && this.extraRolls[0] != null) {
+            score += this.extraRolls[0];
         }
 
         if (this.extraRolls[0] != null) {

@@ -108,6 +108,17 @@ class GameTest {
         assertEquals(18, game.getTotalScore(), "should be equal to 18");
     }
 
+    @Test
+    @DisplayName("Ensure 9th and 10th rounds are strike")
+    void testNinthAndTenthRoundsAreStrike() {
+        addZeroRound(game, 8);
+        addStrikeGame(game, 2);
+        game.addNewRoll(5);
+        game.addNewRoll(3);
+
+        assertEquals(43, game.getTotalScore(), "should be equal to 43");
+    }
+
     private void addStrikeGame(Game game, int numberOfRound) {
         int i =0;
         while(i < numberOfRound) {
