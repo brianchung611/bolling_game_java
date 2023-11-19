@@ -29,27 +29,24 @@ class GameTest {
     @Test
     @DisplayName("Ensure adding second roll")
     void testAddSecondRoll() {
-        game.addNewRoll(1);
-        game.addNewRoll(2);
+        addNormalRound(game, 1);
 
-        assertEquals(3, game.getTotalScore(), "should be equal to 3");
+        assertEquals(6, game.getTotalScore(), "should be equal to 3");
     }
 
     @Test
     @DisplayName("Ensure adding new round")
     void testAddNewRound() {
-        game.addNewRoll(1);
-        game.addNewRoll(2);
+        addNormalRound(game, 1);
         game.addNewRoll(3);
 
-        assertEquals(6, game.getTotalScore(), "should be equal to 6");
+        assertEquals(9, game.getTotalScore(), "should be equal to 6");
     }
 
     @Test
     @DisplayName("Ensure spare round")
     void testSpareRound() {
-        game.addNewRoll(5);
-        game.addNewRoll(5);
+        addSpareGame(game, 1);
         game.addNewRoll(3);
 
         assertEquals(16, game.getTotalScore(), "should be equal to 20");
@@ -58,20 +55,16 @@ class GameTest {
     @Test
     @DisplayName("Ensure two spare rounds")
     void testTwoSpareRounds() {
-        game.addNewRoll(5);
-        game.addNewRoll(5);
-        game.addNewRoll(5);
-        game.addNewRoll(5);
+        addSpareGame(game, 2);
         game.addNewRoll(3);
 
         assertEquals(31, game.getTotalScore(), "should be equal to 31");
     }
 
     @Test
-    @DisplayName("Ensure spare round with unstarted next round")
-    void testSpareRoundWithUnstartedNextRound() {
-        game.addNewRoll(5);
-        game.addNewRoll(5);
+    @DisplayName("Ensure spare round with not started next round")
+    void testSpareRoundWithNotStartedNextRound() {
+        addSpareGame(game, 1);
 
         assertEquals(10, game.getTotalScore(), "should be equal to 10");
     }
@@ -79,21 +72,47 @@ class GameTest {
     @Test
     @DisplayName("Ensure strike round")
     void testStrikeRound() {
-        game.addNewRoll(10);
-        game.addNewRoll(3);
-        game.addNewRoll(2);
+        addStrikeGame(game, 1);
+        addNormalRound(game, 1);
 
-        assertEquals(20, game.getTotalScore(), "should be equal to 20");
+        assertEquals(22, game.getTotalScore(), "should be equal to 20");
     }
 
     @Test
     @DisplayName("Ensure two strike rounds")
     void testTwoStrikeRounds() {
-        game.addNewRoll(10);
-        game.addNewRoll(10);
-        game.addNewRoll(5);
-        game.addNewRoll(3);
+        addStrikeGame(game, 2);
+        addNormalRound(game, 1);
 
-        assertEquals(51, game.getTotalScore(), "should be equal to 51");
+        assertEquals(45, game.getTotalScore(), "should be equal to 51");
+    }
+
+    private void addStrikeGame(Game game, int numberOfRound) {
+        int i =0;
+        while(i < numberOfRound) {
+            game.addNewRoll(10);
+            i++;
+        }
+    }
+
+    private void addSpareGame(Game game, int numberOfRound) {
+        addRound(game, 5, numberOfRound);
+    }
+
+    private void addNormalRound(Game game, int numberOfRound) {
+        addRound(game, 3, numberOfRound);
+    }
+
+    private void addZeroRound(Game game, int numberOfRound) {
+        addRound(game, 0, numberOfRound);
+    }
+
+    private void addRound(Game game, int rollScore, int numberOfRound) {
+        int i = 0;
+        while(i < numberOfRound) {
+            game.addNewRoll(rollScore);
+            game.addNewRoll(rollScore);
+            i++;
+        }
     }
 }
